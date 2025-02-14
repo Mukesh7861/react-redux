@@ -1,0 +1,192 @@
+/* eslint-disable react/no-unescaped-entities */
+import axios from "axios";
+import { useEffect , useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { additem } from "../redux/slice/cartSlice";
+import { additemwish } from "../redux/slice/wishSlice";
+
+function Product() {
+
+    const [data, setData] = useState([]);
+    const [filter, setFilter] = useState([]);
+    const [cartButtonlabel, setcartButtonlabel] = useState(false); //label change
+    const [wishButtonlabel, setwishButtonlabel] = useState(false);
+
+    const dispatch = useDispatch() //action distroy
+//cart
+    const addTocart =(product)=>{
+      dispatch(additem(product))
+
+      setTimeout(()=>{
+        setcartButtonlabel(true)
+      },4000)
+    }
+//wish
+    const addTowish =(product)=>{
+      dispatch(additemwish(product))
+
+      setTimeout(()=>{
+        setwishButtonlabel(true)
+      },4000)
+    }
+
+    let nav = useNavigate()
+  
+    const datanavigate =(pid)=>{
+      nav('/product/pid')
+    }
+
+
+
+    const dataFetch = async () => {
+        try {
+          const response = await axios.get(`https://677f586f0476123f76a60be7.mockapi.io/product`);
+          if (response && response.data) {
+            setData(response.data);
+          }
+        } catch (error) {
+          console.error("FETCH ERROR", error);
+        }
+      };
+      
+      useEffect(() => {
+        dataFetch();
+      }, []);
+
+      useEffect(() => {
+        setFilter(data);
+      },[data]);
+
+      const filterProduct = (cat) => {
+        const updatedList = data.filter((item) => item.category === cat);
+        setFilter(updatedList);
+      };
+
+      
+  const ShowProducts = () => {
+    return (
+      <>
+        <div className="buttons text-center py-5">
+          <button
+            className="btn btn-outline-dark btn-sm m-2"
+            onClick={() => setFilter(data)}
+          >
+            All
+          </button>
+          <button
+            className="btn btn-outline-dark btn-sm m-2"
+            onClick={() => filterProduct("men's clothing")}
+          >
+            Men's Clothing
+          </button>
+          <button
+            className="btn btn-outline-dark btn-sm m-2"
+            onClick={() => filterProduct("women's clothing")}
+          >
+            Women's Clothing
+          </button>
+          <button
+            className="btn btn-outline-dark btn-sm m-2"
+            onClick={() => filterProduct("jewelery")}
+          >
+            Jewelery
+          </button>
+          <button
+            className="btn btn-outline-dark btn-sm m-2"
+            onClick={() => filterProduct("electronics")}
+          >
+            Electronics
+          </button>
+        </div>
+
+        {filter.map((product, index) => {
+          return (
+            <div
+              id={product.id}
+              key={`${product.id}-${index}`}
+              className="col-md-4 col-sm-6 col-xs-8 col-12 mb-4"
+            >
+              <div className="card text-center h-100" key={product.id}>
+                <img
+                  className="card-img-top p-3"
+                  src={product.image}
+                  alt={product.title}
+                  height={300}
+                />
+                <div className="card-body">
+                  <h5 className="card-title">
+                    {product.title.substring(0, 12)}...
+                  </h5>
+                  <p className="card-text">
+                    {product.description.substring(0, 90)}...
+                  </p>
+                </div>
+                <ul className="list-group list-group-flush">
+                  <li className="list-group-item lead">$ {product.price}</li>
+                </ul>
+                <div className="card-body">
+                  <Link
+                    to={"/wish"}
+                    className="btn btn-dark m-1"
+                    onClick={() => {
+                      toast.success("Added to Wishlist");
+                      addTowish(product);
+                    }}
+                  >
+                    Wish-Product
+                  </Link>
+
+                  <Link
+                    to={"/cart"}
+                    className="btn btn-dark m-1"
+                    onClick={() => {
+                      // toast.success("Added to cart");
+                      // alert("hi")
+                      addTocart(product);
+                    }}
+                  >
+                    Add to Cart
+                  </Link>
+
+                  <Link
+                    to={`/product/${product.id}`}
+                    className="btn btn-dark m-1" 
+                    // onClick={() => {
+                    //   nav(`/product/${product.id}`)
+                    // }}
+                   
+                  >
+                    VIEW PRODUCT
+                  </Link>
+
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </>
+    );
+  };
+
+  return (
+    <div>
+      <>
+      <div className="container my-3 py-3">
+        <div className="row">
+          <div className="col-12">
+            <h2 className="display-5 text-center">Latest Products</h2>
+            <hr />
+          </div>
+        </div>
+        <div className="row justify-content-center">
+          <ShowProducts/>
+        </div>
+      </div>
+    </>
+    </div>
+  )
+}
+
+export default Product
