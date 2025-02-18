@@ -1,0 +1,110 @@
+/* styles.css */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+  }
+  
+  /* Centering the form */
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+  }
+  
+  /* Card style */
+  .card {
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 320px;
+    text-align: center;
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+  }
+  
+  /* Input fields */
+  input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border 0.3s;
+  }
+  
+  input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Buttons */
+  button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  /* Login button */
+  .login-btn {
+    background-color: #007bff;
+    color: white;
+    margin-top: 10px;
+  }
+  
+  .login-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Toggle Theme Button */
+  .toggle-btn {
+    background: transparent;
+    color: inherit;
+    margin-top: 15px;
+    text-decoration: underline;
+  }
+  
+  .toggle-btn:hover {
+    color: #007bff;
+  }
+  
+  /* Light & Dark Mode */
+  .light {
+    background: #f5f5f5;
+    color: #333;
+  }
+  
+  .light .card {
+    background: white;
+  }
+  
+  .dark {
+    background: #121212;
+    color: #fff;
+  }
+  
+  .dark .card {
+    background: #1e1e1e;
+  }
+  
+  /* Error Message */
+.error {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  /* Disable button on loading */
+  button:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+  }
+  
