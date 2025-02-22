@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Interval Calculator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Bootstrap is included for styling. -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery is included to handle event interactions. -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <!-- Moment.js is included for date manipulation. -->
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center">Date Interval</h2>
+        <label>From: <input type="date" id="startDate"></label>
+        <label>To: <input type="date" id="endDate"></label>
+        <button id="calculate" class="btn btn-primary">Calculate</button>
+        <div id="result" class="alert alert-info" style="margin-top: 20px; display: none;"></div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('#calculate').click(function(){
+                let start = moment($('#startDate').val());
+                let end = moment($('#endDate').val());
+                
+                if (!start.isValid() || !end.isValid()) {
+                    alert('Please select valid dates.');
+                    return;
+                }
+                
+                let years = end.diff(start, 'years');
+                let months = end.diff(start, 'months');
+                let weeks = end.diff(start, 'weeks');
+                let days = end.diff(start, 'days');
+                
+                $('#result').html(
+                    `In years: ${years}<br>
+                    In months: ${months}<br>
+                    In weeks: ${weeks}<br>
+                    In days: ${days}`
+                ).fadeIn();
+            });
+        });
+    </script>
+</body>
+</html>
